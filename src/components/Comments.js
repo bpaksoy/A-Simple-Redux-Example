@@ -25,15 +25,15 @@ getComment(commenter, event){
       name: commenter,
       comment: this.state.currentComment
     }
-    //send the new object to the commentReducer
     text.value = "";
+    //send the new object to the commentReducer
     this.props.addComment(newComment)
 
 }
 
 
 render(){
- //get the currentUser state from the reducer
+ //get the currentUser state from the userReducer
   const user = this.props.users.currentUser;
   let commenter;
   {(user)? commenter = user.name : "" }
@@ -42,17 +42,19 @@ render(){
 
   return(
     <div>
-     <h2>Hello {(user)? user.name : "" }</h2>
-      <form>
-       <h4>Post Something Here</h4>
-       <input ref="text" onChange={this.handleInput.bind(this)} type="text"/>
-       <button onClick={this.getComment.bind(this, commenter)}>Submit</button>
-      </form>
-      {
+     {(commenter) ?
+     <div>
+       <h2>Hello { commenter }</h2>
+        <form>
+          <h4>Post Something Here</h4>
+          <input ref="text" onChange={this.handleInput.bind(this)} type="text"/>
+          <button onClick={this.getComment.bind(this, commenter)}>Submit</button>
+        </form>
+       {
         (comments)? <p>{commenter} says: {comments.map((comment, i)=> <li key={i}>{comment.text}</li>)}</p> : ""
+       }
+      </div> : ""
       }
-
-
     </div>
   )
  }
